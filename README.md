@@ -18,7 +18,7 @@ Hold **J** to sprint
 pls give me blahaj
 
 ## Notes for myself
-Pls win
+Pls win, and yes I did star my own repo.
 
 ## building!!11
 
