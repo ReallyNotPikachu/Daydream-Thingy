@@ -40,6 +40,16 @@ Hold **J** to sprint
 ## Notes for reviewers
 pls give me 2nd place I want blahaj
 
+## Minimum specs
+Tested working on Toshiba Satellite L775D
+<br> I was overclocked to 1.9ghz and got around 300-500 FPS using the native build
+<ul>
+<li>AMD A6 3400M</li>
+<li>Radeon HD 6520g</li>
+<li>8GB DDR3</li>
+</ul>
+<br> web build idrk
+
 ## Notes for myself
 Pls win, and yes I did star my own repo.<br>
 **please stop editing the readme and work on the actual game**
@@ -48,6 +58,7 @@ Pls win, and yes I did star my own repo.<br>
 
 compile raylib for emscripten and put your libraylib.a in the root of this folder
 then do this (You may want to change the makefile a little)
+<br> You'll have to modify the source code but there is a native build option too!
 ```
 make build_web
 make

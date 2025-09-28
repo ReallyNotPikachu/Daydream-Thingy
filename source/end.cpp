@@ -38,8 +38,8 @@ void endWorld() {
     PlaySound(return0);
     soundPlayed = true;
   }
-  DrawText("Thanks for playing.", 1, 1, 10, WHITE);
-  DrawText(("Your time was: "+to_string(seconds)).c_str(),1, 15, 10, WHITE);
+  DrawText("Thanks for playing.", 1, 1, 10, BLACK);
+  DrawText(("Your time was: "+to_string(seconds)).c_str(),1, 15, 10, BLACK);
 }
 
 void drawStars() {

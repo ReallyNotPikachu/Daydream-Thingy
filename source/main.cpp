@@ -65,7 +65,7 @@ void gameIntro() {
   // DrawText("Fishing Simulator 1692", 3, 4, 10, RED);
   DrawText("Fish are quite desirable\nBring fish to the woods\n -- Controls "
            "--\nK to confirm/fish\nJ to sprint\nWASD "
-           "obviously to move\n click for sound btw",
+           "obviously to move",
            3, 4, 10, BLACK);
   EndTextureMode();
   DrawTexturePro(render.texture,
@@ -87,7 +87,7 @@ void resize() {
   virtualRatio = WINDOW_WIDTH / 160.0f;
 }
 void loop() {
-  //i give up
+  // i give up
   if (IsWindowResized()) {
     resize();
   }
@@ -138,13 +138,15 @@ void loop() {
   if (!(location == End))
     drawFishCount();
   drawYouGotAMenu();
+  // END MODE 2D
+  EndMode2D();
+  // END TEXTURE MODE
+  EndTextureMode();
   if (location == Nullpointer) {
-    puts("gqwhgiuqwgehiqwhg");
+    // puts("gqwhgiuqwgehiqwhg");
     DrawRectangle(0, 0, 160, 90, BLACK);
     endWorld();
   }
-  EndMode2D();
-  EndTextureMode();
   BeginMode2D(secondCamera);
   DrawTexturePro(render.texture,
                  (Rectangle){0.0f, 0.0f, (float)render.texture.width,
