@@ -181,7 +181,8 @@ void loop() {
     endCameraShake();
   }
   frameCounter++;
-  seconds += deltaTime;
+  if(location != Nullpointer)
+    seconds += deltaTime;
   clearBoxes();
 }
 
