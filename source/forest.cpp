@@ -29,11 +29,13 @@ typedef struct forestAssets {
   Texture2D deadTree;
 } forestAssets;
 extern bool debugActive;
+bool playerIsClueless = false;
 static forestAssets assets;
 bool isSacrificing;
 Texture2D sacrificeTextures[19];
 typedef struct {
   float timeSacrificing;
+  float timeShown;
   bool animationDone;
   float delayBecauseICantFixABug;
 } Status;
@@ -174,7 +176,7 @@ void drawFishSacrificeHud() {
 void updateFishSacrifice() {
   // printf("%f\n",status.timeSacrificing);
   // status.isSacrificing = true;
-  if (status.timeSacrificing > 3.7f || IsKeyPressed(KEY_K)) {
+  if (status.timeSacrificing > 3.7f || (IsKeyPressed(KEY_K) && fishSacrificedCount + player.inventory.size() < 7)){
     stopSacrificing();
     return;
   }
@@ -189,8 +191,21 @@ void exitForest() {
   player.updatePos(80, 59);
 }
 
+void youCantSacrificeNothing() {
+  const float max = 2.5f;
+  if(status.timeShown < max){
+    DrawRectangle(0, 0, 160, 90, {0,0,0,150});
+    DrawText("Come back to the circle.. \nwith fish", 1, 45,8 , WHITE);
+  } else {
+    playerIsClueless = false;
+    status.timeShown = 0.0f;
+  }
+  status.timeShown += deltaTime;
+}
+
 void sacrificeFish() {
   if (player.inventory.size() < 1) {
+    playerIsClueless = true;
     return;
   }
   PlaySound(assets.sacrifice);

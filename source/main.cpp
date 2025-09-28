@@ -23,6 +23,7 @@ Location location = Overworld;
 float deltaTime;
 Camera2D secondCamera;
 extern bool isSacrificing;
+extern bool playerIsClueless;
 RenderTexture render;
 Player player;
 bool worldExists = true;
@@ -65,7 +66,7 @@ void gameIntro() {
   // DrawText("Fishing Simulator 1692", 3, 4, 10, RED);
   DrawText("Fish are quite desirable\nBring fish to the woods\n -- Controls "
            "--\nK to confirm/fish\nJ to sprint\nWASD "
-           "obviously to move",
+           "obviously to move\nPress K to go to area too",
            3, 4, 10, BLACK);
   EndTextureMode();
   DrawTexturePro(render.texture,
@@ -77,6 +78,16 @@ void gameIntro() {
                  (Vector2){0.0f, 0.0f}, 0.0f, WHITE);
   EndDrawing();
 }
+void drawHelp() {
+  const float max = 2.5f;
+  static float timer = 0.0f;
+  if (timer < max) {
+    DrawRectangle(0, 0, 160, 90, {0,0,0,150});
+    DrawText("Face the woods and press K\nTo go between there and here", 1, 45, 8, WHITE);
+    timer += deltaTime;
+  }
+}
+
 void drawFishCount() {
   string str = "Fish: " + to_string(player.inventory.size());
   DrawText(str.c_str(), 2, 1, 7, RED);
@@ -140,13 +151,17 @@ void loop() {
   drawYouGotAMenu();
   // END MODE 2D
   EndMode2D();
+  if(playerIsClueless){
+    youCantSacrificeNothing();
+  }
+  drawHelp();
   // END TEXTURE MODE
-  EndTextureMode();
   if (location == Nullpointer) {
     // puts("gqwhgiuqwgehiqwhg");
     DrawRectangle(0, 0, 160, 90, BLACK);
     endWorld();
   }
+  EndTextureMode();
   BeginMode2D(secondCamera);
   DrawTexturePro(render.texture,
                  (Rectangle){0.0f, 0.0f, (float)render.texture.width,

@@ -31,6 +31,7 @@ bool cameraShaking = false;
 uint8_t yOffsets[196];
 uint8_t xOffsets[196];
 
+//this fucntion WOULD NOT WORK AT ALL
 void endWorld() {
   static bool soundPlayed = false;
   location = Nullpointer;
@@ -38,8 +39,8 @@ void endWorld() {
     PlaySound(return0);
     soundPlayed = true;
   }
-  DrawText("Thanks for playing.", 1, 1, 10, BLACK);
-  DrawText(("Your time was: "+to_string(seconds)).c_str(),1, 15, 10, BLACK);
+  DrawText("Thanks for playing.", 1, 1, 10, WHITE);
+  DrawText(("Your time was: "+to_string(seconds)).c_str(),1, 15, 10, WHITE);
 }
 
 void drawStars() {
