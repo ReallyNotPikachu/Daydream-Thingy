@@ -20,12 +20,12 @@ INCLUDES = -Iinclude/
 LIBRARIES = ./libraylib.a
 
 # Optimized for size | Warnings for all errors | Link with WASM Raylib | use shell.html | add assets folder to index.data | compatibility flags
-WEB_OPT = -Os -Wall -Linclude/web $(LIBRARIES) --shell-file include/web/shell.html --preload-file assets -DPLATFORM_WEB -s USE_GLFW=3 -s GL_ENABLE_GET_PROC_ADDRESS
+WEB_OPT = -Os -Wall -Linclude/web $(LIBRARIES) --shell-file include/web/shell.html --preload-file assets -DPLATFORM_WEB -s USE_GLFW=3 -std=c++17 -pipe -s GL_ENABLE_GET_PROC_ADDRESS
 WEB_OUT = "build/index.html"
 WEB_ZIP = "$(PROJECT_NAME)_v$(PROJECT_VERSION)_web.zip"
 
 # Change this to your emscripten install location
-# What I have is not recommended, i do it because cachyos probably makes mine faster
+# What I have is not recommended, i do it because cachyos's emscripten is probably faster than the one from emsdk
 EMSDK_PATH = /lib/emscripten
 
 # Use `emrun --list_browsers` for more options

@@ -38,6 +38,7 @@ bool intro = true;
 float virtualRatio = 1280 / 160.0f;
 int WINDOW_WIDTH = 1280;
 int WINDOW_HEIGHT = 720;
+Color groundTint = WHITE;
 uint64_t frameCounter;
 void cameraFollowPlayer() {
   const float lerpAmount = 8.0f;
@@ -49,17 +50,6 @@ void cameraFollowPlayer() {
 void clearBoxes() {
   interactionBoxes.clear();
   hitboxes.clear();
-}
-void endCameraShake() { secondCamera.offset = {0, 0}; }
-//believe it or not, I did not copy this from anywhere! desmos!
-void cameraShake() {
-  static float time = 0.0f;
-  // based on 720p
-  const float speed = (120.0f / 10);
-  float maxDistance = 5.0f * (WINDOW_WIDTH / 1280.0f);
-  float offset = sin((time * PI) * speed) * maxDistance;
-  secondCamera.offset = {offset, offset};
-  time += deltaTime;
 }
 void drawHitboxes() {
   for (Rectangle hitbox : hitboxes) {
@@ -128,8 +118,11 @@ void loop() {
   } else if (location == End) {
     drawEnd();
   }
-  drawForest();
+  if(location == Forest)
+    drawForestCracks();
   player.draw();
+  drawForest();
+
   if (debugActive) {
     drawHitboxes();
   }
@@ -143,7 +136,7 @@ void loop() {
   if (!worldExists) {
     endWorld();
   }
-    drawYouGotAMenu();
+  drawYouGotAMenu();
   EndMode2D();
   EndTextureMode();
   BeginMode2D(secondCamera);
@@ -159,8 +152,8 @@ void loop() {
   if (location == End) {
     cameraFollowPlayer();
   }
-  if (isSacrificing || cameraShaking) {
-    cameraShake();
+  if (isSacrificing) {
+    cameraShake(1);
   } else {
     endCameraShake();
   }
@@ -176,8 +169,8 @@ int main(void) {
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "fishing");
   SetWindowMinSize(160, 90);
   InitAudioDevice();
-  iHateCPP(); //need to load before player
-  //load
+  iHateCPP(); // need to load before player
+  // load
   loadEnd();
   loadLake();
   hitboxes = vector<Rectangle>();

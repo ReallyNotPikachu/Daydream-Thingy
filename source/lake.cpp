@@ -1,5 +1,6 @@
 #include "lake.hpp"
 #include "fish.hpp"
+#include "forest.hpp"
 #include "player.hpp"
 #include <cassert>
 #include <cmath>
@@ -13,8 +14,14 @@
 using namespace std;
 extern int fishCaught;
 extern vector<Rectangle> hitboxes;
+extern Color groundTint;
 extern vector<Interaction> interactionBoxes;
+extern int fishSacrificedCount;
 extern Player player;
+//lower pitch
+Sound ping1;
+//higher pitch
+Sound ping2;
 static Rectangle box = {0, 90 - 30, 60, 70};
 // coorespond with index of fish name
 extern float deltaTime;
@@ -24,11 +31,13 @@ typedef struct lakeResource {
   Texture2D grassWater;
   Texture2D grassWaterSide;
   Texture2D water;
+  Sound fishSuccess;
   Texture2D bobber;
   Texture2D grassWaterCorner;
   Sound moveBobber;
 } lakeResources;
 static lakeResources assets;
+Sound success;
 typedef struct {
   Fish currentFish;
   float floaterPoint;
@@ -86,6 +95,12 @@ double randomTime() {
   uniform_real_distribution<double> distribution(1, 2);
   return distribution(gen);
 }
+
+double randomPitch() {
+  default_random_engine gen;
+  uniform_real_distribution<double> distribution(0.9, 1.1);
+  return distribution(gen);
+}
 void drawFishingHud() {
   DrawText(twoDecimals(to_string(status.timeLeft - status.currentTime)).c_str(),
            140, 4, 8, BLACK);
@@ -93,15 +108,16 @@ void drawFishingHud() {
     DrawText("Fish caught!", 80 - MeasureText("Fish Caught!", 8), 45, 8, RED);
     DrawText("(k to reel)", 80, 57, 8, BLACK);
   }
-  DrawRectangle(142, 17, 14, 56, {0,0,0,100});
-  DrawRectangle(140, 15, 15, 60, RED);
+  DrawRectangle(142, 17, 14, 56, {0, 0, 0, 100});
+  DrawRectangle(140, 15, 15, 60, {77, 101, 180, 255});
   // good zone
-  DrawRectangle(140, 15 + 15, 15, 30, GREEN);
+  DrawRectangle(140, 15 + 15, 15, 30, {GREEN.r, GREEN.g, GREEN.b, 240});
   // bobber
   // DrawRectangle(141, status.floaterPoint + 15, 13, 15, ORANGE);
-  DrawEllipse(142+1+4, status.floaterPoint + 15 , 6,3, ORANGE);
-  // draw the
-  // DrawPixel(142+1+4, status.floaterPoint + 15+2, RED);
+  DrawEllipse(142 + 1 + 4, status.floaterPoint + 15, 6, 3, ORANGE);
+  // THE AMOUNT OF ADDITION LOL
+  DrawLine(142 + 1 + 4 - 7, status.floaterPoint + 15, 142 + 1 + 9 + 3,
+           status.floaterPoint + 15, BLACK);
 }
 // update
 void endFishing() {
@@ -109,14 +125,16 @@ void endFishing() {
   status.fishingSuccessful =
       status.floaterPoint >= 15 && status.floaterPoint <= 45;
   if (status.fishingSuccessful) {
+    PlaySound(success);
     player.inventory.push_back(getFish());
     status.lastFishName = player.inventory.back().name;
   }
   player.isFishing = false;
   timeSinceLastFished = 0;
 }
+//--allow-file-access-from-files --allow-file-access --allow-cross-origin-auth-prompt.
 void fish(void) {
-  printf("%f\n", status.floaterPoint);
+  // printf("%f\n", status.floaterPoint);
   // end fishing
   if (status.timeLeft - status.currentTime <= 0) {
     endFishing();
@@ -126,6 +144,8 @@ void fish(void) {
   }
   if (IsKeyPressed(KEY_K)) {
     status.floaterPoint -= 10;
+    SetSoundPitch(ping1, randomPitch());
+    PlaySound(ping1);
   }
   if (debugActive) {
     if (IsKeyPressed(KEY_NINE)) {
@@ -147,13 +167,17 @@ void loadLake() {
   fishing = LoadSound("resources/splish.ogg");
   assets.grass = LoadTexture("resources/grass.png");
   assets.grassWaterCorner = LoadTexture("resources/wateredgecorner.png");
+  success = LoadSound("resources/fished.ogg");
   assets.grassWaterSide = LoadTexture("resources/wateredgeright.png");
+  ping1 = LoadSound("resources/ping1.ogg");
+  ping2 = LoadSound("resources/ping2.ogg");
   assets.grassWater = LoadTexture("resources/wateredge.png");
   assets.water = LoadTexture("resources/water.png");
   assets.bobber = LoadTexture("resources/bobber.png");
 }
 
 void startFishing(void) {
+  PlaySound(ping2);
   PlaySound(fishing);
   player.isFishing = true;
   status.floaterPoint = 0.1f;
@@ -173,24 +197,27 @@ void updateLake() {
 void drawlake() {
   for (int x = 0; x < 160 / 16; x++) {
     for (int y = 0; y < (90 / 16) + 1; y++) {
-      DrawTexture(assets.grass, 0 + (16 * x), 0 + (16 * y), WHITE);
+      DrawTexture(assets.grass, 0 + (16 * x), 0 + (16 * y), groundTint);
     }
   }
   // draw the lake
   // 90-23
   for (int i = 0; i < (box.width / 16); i++) {
-    DrawTexture(assets.grassWater, 0 + (i * 16), box.y, WHITE);
+    DrawTexture(assets.grassWater, 0 + (i * 16), box.y, groundTint);
   }
-  DrawTexture(assets.grassWaterCorner, box.width - 10, box.y, WHITE);
+  DrawTexture(assets.grassWaterCorner, box.width - 10, box.y, groundTint);
   for (int y = 0; y < box.height / 16; y++) {
     for (int x = 0; x < (box.width / 16); x++) {
-      DrawTexture(assets.water, 0 + (x * 16), (box.y + 16) + (y * 16), WHITE);
+      DrawTexture(assets.water, 0 + (x * 16), (box.y + 16) + (y * 16),
+                  groundTint);
     }
   }
-  DrawTexture(assets.grassWaterSide, box.width - 10, box.y + 16, WHITE);
-  DrawTexture(assets.grassWaterSide, box.width - 10, box.y + 32, WHITE);
-  DrawTexture(assets.grassWaterSide, box.width - 10, box.y + 48, WHITE);
-  DrawTexture(assets.grassWaterSide, box.width - 10, box.y + 64, WHITE);
+  DrawTexture(assets.grassWaterSide, box.width - 10, box.y + 16, groundTint);
+  DrawTexture(assets.grassWaterSide, box.width - 10, box.y + 32, groundTint);
+  DrawTexture(assets.grassWaterSide, box.width - 10, box.y + 48, groundTint);
+  DrawTexture(assets.grassWaterSide, box.width - 10, box.y + 64, groundTint);
+  if (fishSacrificedCount > 3)
+    DrawTextureEx(getCrack(), {10, 90}, 270, 1, {255, 255, 255, 140});
   // DrawRectangleRec(box, BLUE);
   if (player.isFishing) {
     drawRod();

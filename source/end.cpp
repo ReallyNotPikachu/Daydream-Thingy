@@ -3,6 +3,7 @@
 #include "player.hpp"
 #include <climits>
 #include <cstdlib>
+#include "forest.hpp"
 #include <raylib.h>
 extern float deltaTime;
 extern vector<Interaction> interactionBoxes;
@@ -11,6 +12,7 @@ extern Player player;
 extern Location location;
 typedef struct {
   float timeInEnd;
+  float shakeStrength;
 } Status;
 Status status;
 extern bool worldExists;
@@ -64,7 +66,10 @@ void drawEndInEnd() {
   } else {
     text4.draw();
   }
-  cameraShaking = status.timeInEnd > 10.0f;
+  // cameraShaking = status.timeInEnd > 10.0f;
+  if(status.timeInEnd > 10.0f) {
+    cameraShake(1 + status.shakeStrength);
+  }
   // end the world
 }
 
