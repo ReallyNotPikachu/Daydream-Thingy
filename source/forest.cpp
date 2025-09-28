@@ -220,11 +220,11 @@ void sacrificeFish() {
 void updateForestInsideForest() {
   // lol
   hitboxes.push_back(sacrificeBox);
+  hitboxes.push_back({0,90,160,90});
   interactionBoxes.push_back({sacrificeBox, sacrificeFish});
   interactionBoxes.push_back({leaveBox, exitForest});
   // if(fishSacrificedCount > fishNeededToSacrifice)
   interactionBoxes.push_back({endBox, enterEnd});
-
   if (isSacrificing) {
     updateFishSacrifice();
   }
