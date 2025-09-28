@@ -2,8 +2,7 @@
 (I modified the build system a little to use C++ and with my environment)
 https://github.com/Paperdomo101/WebDemo
 
-# Credits
-Sound font: https://musical-artifacts.com/artifacts/855
+<img src="./readmestuff/screenie.png"> </img>
 # Other Credits
 yeah not really any that I can think of
 <br> My friend Ryan for teaching me how to code on January 1st 2023<br>
