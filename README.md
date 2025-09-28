@@ -47,7 +47,8 @@ Tested working on Toshiba Satellite L775D
 <li>Radeon HD 6520g</li>
 <li>8GB DDR3</li>
 </ul>
-<br> web build idrk
+<br> 
+Web Build works as well (Tested Firefox CachyOS)
 
 ## Notes for myself
 Pls win, and yes I did star my own repo.<br>
