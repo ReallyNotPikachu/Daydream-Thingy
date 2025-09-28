@@ -62,3 +62,11 @@ then do this (You may want to change the makefile a little)
 make build_web
 make
 ```
+
+## Running!!11
+When you built it uhh just do this
+```
+cd build
+python -m http.server
+```
+and then go to the http server it hosts and bam game
