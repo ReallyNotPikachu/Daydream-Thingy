@@ -1,4 +1,5 @@
 # THE PROJECT TEMPLATE I USED (all of their C code was replaced my crappy "C++")
+(I modified the build system a little to use C++ and just be better)
 https://github.com/Paperdomo101/WebDemo
 
 # Other Credits
