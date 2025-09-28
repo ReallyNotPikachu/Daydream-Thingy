@@ -3,11 +3,7 @@
 https://github.com/Paperdomo101/WebDemo
 
 # Credits
-<ul>
-<li> Sound font: https://musical-artifacts.com/artifacts/855</li>
-<li> </li>
-
-</ul>
+Sound font: https://musical-artifacts.com/artifacts/855
 # Other Credits
 yeah not really any that I can think of
 <br> My friend Ryan for teaching me how to code on January 1st 2023<br>
