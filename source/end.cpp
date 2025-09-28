@@ -1,15 +1,18 @@
 #include "end.hpp"
 #include "floatingtext.hpp"
+#include "forest.hpp"
 #include "player.hpp"
 #include <climits>
 #include <cstdlib>
-#include "forest.hpp"
 #include <raylib.h>
+#include <string>
 extern float deltaTime;
 extern vector<Interaction> interactionBoxes;
 extern vector<Rectangle> hitboxes;
 extern Player player;
+Sound return0;
 extern Location location;
+extern double seconds;
 typedef struct {
   float timeInEnd;
   float shakeStrength;
@@ -19,10 +22,9 @@ extern bool worldExists;
 extern Camera2D camera;
 static const Rectangle endBox = {120, 0, 20, 30};
 floatingText text1 = floatingText({30, 62}, "Do you know why\nI want fish?");
-floatingText text2 = floatingText({30, 62}, "It's a rather long story\n");
-floatingText text3 =
-    floatingText({30, 62}, "Actually nevermind, this will do\n");
-floatingText text4 = floatingText({30, 62}, "Go run along now, goodbye\n");
+floatingText text2 = floatingText({30, 62}, "It's a rather\n long story\n");
+floatingText text3 = floatingText({30, 62}, "I don't care \nto tell.");
+floatingText text4 = floatingText({30, 62}, "So goodbye.");
 bool cameraShaking = false;
 // end at x=250 y = -50
 // i just realized this isn't needed... OOPS
@@ -30,8 +32,14 @@ uint8_t yOffsets[196];
 uint8_t xOffsets[196];
 
 void endWorld() {
-  ClearBackground(BLACK);
-  DrawText("Thanks for playing.", 0, 0, 10, WHITE);
+  static bool soundPlayed = false;
+  location = Nullpointer;
+  if (!soundPlayed) {
+    PlaySound(return0);
+    soundPlayed = true;
+  }
+  DrawText("Thanks for playing.", 1, 1, 10, WHITE);
+  DrawText(("Your time was: "+to_string(seconds)).c_str(),1, 15, 10, WHITE);
 }
 
 void drawStars() {
@@ -67,7 +75,8 @@ void drawEndInEnd() {
     text4.draw();
   }
   // cameraShaking = status.timeInEnd > 10.0f;
-  if(status.timeInEnd > 10.0f) {
+  if (status.timeInEnd > 10.0f) {
+    status.shakeStrength += deltaTime;
     cameraShake(1 + status.shakeStrength);
   }
   // end the world
@@ -78,6 +87,7 @@ void loadEnd() {
     xOffsets[i] = GetRandomValue(0, 4);
     yOffsets[i] = GetRandomValue(0, 4);
   }
+  return0 = LoadSound("resources/enterhouse.ogg");
 }
 
 void drawEnd() {
@@ -102,7 +112,12 @@ void updateEnd() {
   hitboxes.push_back({0, 200, 900, 10});
   text1.updateOffset();
   status.timeInEnd += deltaTime;
+  // this is the most cool hacker thing ive ever written
   if (status.timeInEnd > 15.0f) {
     worldExists = false;
+    location = Nullpointer;
+    camera.offset = {0, 0};
+    camera.target = {0, 0};
+    camera.zoom = 0;
   }
 }

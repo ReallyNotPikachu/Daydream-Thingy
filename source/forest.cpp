@@ -156,7 +156,6 @@ void enterForest() {
   player.y = 72;
 }
 
-// TODO draw this
 void drawFishSacrifice() {
   if (sacrificeAnimation->currentFrame != sacrificeAnimation->frameCount - 1 &&
       !status.animationDone) {

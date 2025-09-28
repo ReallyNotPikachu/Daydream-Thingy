@@ -2,10 +2,17 @@
 (I modified the build system a little to use C++ and with my environment)
 https://github.com/Paperdomo101/WebDemo
 
+# Credits
+<ul>
+<li> Sound font: https://musical-artifacts.com/artifacts/855</li>
+<li> </li>
+
+</ul>
 # Other Credits
-yeah not really any that I can think of, uhh
+yeah not really any that I can think of
 <br> My friend Ryan for teaching me how to code on January 1st 2023<br>
 <!--Ignore the makefile using /bin/chromium-->
+[<img src="./readmestuff/88x31.jpg">](https://sheepy.moe)
 [<img src="./readmestuff/firefox.gif">](https://www.firefox.com/) 
 [<img src="./readmestuff/3ds.png">](https://3ds.hacks.guide)
 [<img src="./readmestuff/truecolour-solaris.png">]()

@@ -33,7 +33,8 @@ public:
 typedef enum {
   Overworld = 0,
   Forest = 1, 
-  End = 2
+  End = 2,
+  Nullpointer = 3
 } Location;
 
 typedef struct {

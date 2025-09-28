@@ -42,6 +42,7 @@ Player::Player()
     runUp({10.0f, 10.0f}, (15/60.0f), 3, upTextures),
       runDown({10.0f, 10.0f}, (15/60.0f), 3, downTextures)
 {
+  //TODO add random eyes that look at you after 3 sacrifices
   canMove = true;
   isFishing = false;
   x = 10.0f;

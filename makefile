@@ -37,7 +37,9 @@ test_web: web_build web_run
 # Build and zip for itch.io
 release_web: web_build web_zip
 
-
+native_build:
+	g++ ./source/*.cpp -o main -O0 -ggdb -lraylib -lm 
+	./main
 web_build:
 	mkdir -p build && \
 	cd $(EMSDK_PATH) && cd "${PWD}" && \

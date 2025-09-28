@@ -6,7 +6,7 @@ extern float deltaTime;
 static float yOffset = 0.0f;
 static float timeSinceMove = 0.0f;
 void floatingText::draw() { 
-    DrawText(text.c_str(), x, y + yOffset, 15, WHITE);
+    DrawText(text.c_str(), x, y + yOffset, 10, WHITE);
  }
 void floatingText::update() {
 

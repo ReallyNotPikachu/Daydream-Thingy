@@ -62,7 +62,8 @@ void gameIntro() {
   BeginDrawing();
   BeginTextureMode(render);
   ClearBackground(WHITE);
-  DrawText("Fish are quite desirable\nBring fish to the woods\n\n -- Controls "
+  // DrawText("Fishing Simulator 1692", 3, 4, 10, RED);
+  DrawText("Fish are quite desirable\nBring fish to the woods\n -- Controls "
            "--\nK to confirm/fish\nJ to sprint\nWASD "
            "obviously to move\n click for sound btw",
            3, 4, 10, BLACK);
@@ -86,6 +87,7 @@ void resize() {
   virtualRatio = WINDOW_WIDTH / 160.0f;
 }
 void loop() {
+  //i give up
   if (IsWindowResized()) {
     resize();
   }
@@ -104,7 +106,7 @@ void loop() {
   }
   if (player.isFishing)
     fish();
-  if (!(location == End))
+  if (location != End && location != Nullpointer)
     updateForest();
   // DO NOT UPDATE HITBOXES AFTER THIS POINT
   player.update();
@@ -118,9 +120,11 @@ void loop() {
   } else if (location == End) {
     drawEnd();
   }
-  if(location == Forest)
+  if (location == Forest)
     drawForestCracks();
-  player.draw();
+  if (location != Nullpointer) {
+    player.draw();
+  }
   drawForest();
 
   if (debugActive) {
@@ -133,10 +137,12 @@ void loop() {
     drawFishingHud();
   if (!(location == End))
     drawFishCount();
-  if (!worldExists) {
+  drawYouGotAMenu();
+  if (location == Nullpointer) {
+    puts("gqwhgiuqwgehiqwhg");
+    DrawRectangle(0, 0, 160, 90, BLACK);
     endWorld();
   }
-  drawYouGotAMenu();
   EndMode2D();
   EndTextureMode();
   BeginMode2D(secondCamera);
