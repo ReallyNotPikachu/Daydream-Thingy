@@ -5,7 +5,7 @@ https://github.com/Paperdomo101/WebDemo
 <img src="./readmestuff/screenie.png"> </img>
 # Other Credits
 yeah not really any that I can think of
-<br> My friend Ryan for teaching me how to code on January 1st 2023<br>
+<br> My friend Riley for teaching me how to code on January 1st 2023<br>
 <!--Ignore the makefile using /bin/chromium-->
 [<img src="./readmestuff/88x31.jpg">](https://sheepy.moe)
 [<img src="./readmestuff/firefox.gif">](https://www.firefox.com/) 
